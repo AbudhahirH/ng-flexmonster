@@ -28,8 +28,8 @@
   },
   "bundleDependencies": false,
   "dependencies": {
-    "@types/flexmonster": "latest",
-    "flexmonster": "latest",
+    "@types/flexmonster": "2.8.6",
+    "flexmonster": "2.8.6",
     "tslib": "^1.9.0"
   },
   "deprecated": false,
