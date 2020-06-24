@@ -28,7 +28,7 @@
   },
   "bundleDependencies": false,
   "dependencies": {
-    "@types/flexmonster": "2.8.6",
+    "@types/flexmonster": "latest",
     "flexmonster": "2.8.6",
     "tslib": "^1.9.0"
   },
