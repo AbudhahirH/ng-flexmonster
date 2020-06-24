@@ -1,5 +1,5 @@
-# Angular 4+ directive for Flexmonster Pivot Table & Charts
-[![Flexmonster Pivot Table & Charts](https://s3.amazonaws.com/flexmonster/github/fm-github-cover.png)](https://flexmonster.com)
+# Angular 4+ directive for Flexmonster Pivot component
+[![Flexmonster Pivot table component](https://s3.amazonaws.com/flexmonster/github/fm-github-cover.png)](https://flexmonster.com)
 
 
 This repository holds the TypeScript source code for using [Flexmonster Pivot](https://www.flexmonster.com/) in [Angular](https://angular.io/) applications. 
@@ -24,7 +24,10 @@ You have the following options to start:
 
 ### <a name="prerequisites"></a>Prerequisites ###
 
-Node.js and npm are essential to Angular development. [Get it now](https://docs.npmjs.com/getting-started/installing-node) if it's not already installed on your machine.
+Node.js and npm are essential to Angular development. 
+    
+<a href="https://docs.npmjs.com/getting-started/installing-node" target="_blank" title="Installing Node.js and updating npm">
+Get it now</a> if it's not already installed on your machine.
  
 **Verify that you are running at least node `v4.x.x` and npm `3.x.x`**
 by running `node -v` and `npm -v` in a terminal/console window.
@@ -40,22 +43,35 @@ npm install -g @angular/cli
 
 ### <a name="add-to-app"></a>Integrate Flexmonster into existing/new application ###
 
-**Step 1.** If you don’t have Angular CLI app, you can create it by running in the console:
+If you don’t have Angular CLI app, you can create it by running in the console:
 
 ```bash
 ng new PROJECT-NAME
 cd PROJECT-NAME
 ```
 
-**Step 2.** Install Flexmonster Angular module by running the NPM command:
+Add Flexmonster Angular module by running in the console:
 
 ```bash
-npm install ng-flexmonster
+npm i ng-flexmonster --save
 ```
 
-**Step 3.** Import `FlexmonsterPivotModule` into `src/app/app.module.ts`:
+Add Flexmonster CSS and JS references to `angular.json`:
 
-```typescript
+```bash
+"styles": [ 
+	...,
+	"node_modules/flexmonster/flexmonster.min.css" 
+],
+"scripts": [ 
+  ...,
+  "node_modules/flexmonster/flexmonster.full.js" 
+],
+```
+
+Include `FlexmonsterPivotModule` into `app.module.ts`. `app.module.ts` can be found inside `PROJECT-NAME/src/app` folder.
+
+```bash
 import { FlexmonsterPivotModule } from 'ng-flexmonster';
 
 @NgModule({
@@ -65,28 +81,16 @@ import { FlexmonsterPivotModule } from 'ng-flexmonster';
 })
 ```
 
-**Step 4.** Import CSS styles (e.g. in the `styles.css`):
-```css
-@import "flexmonster/flexmonster.min.css";
-```
+Insert `fm-pivot` directive where you need the pivot table, for example `app.component.html`.
 
-**Step 5.** Import `flexmonster` and `ng-flexmonster` TypeScript modules (e.g. in the `app.component.ts`):
-
-```typescript
-import * as Flexmonster from 'flexmonster';
-import { FlexmonsterPivot } from 'ng-flexmonster';
-```
-
-**Step 6.** Insert `fm-pivot` directive where you need the pivot table (e.g. in the `app.component.html`):
-
-```html
+```bash
 <fm-pivot 
   [licenseKey]="'XXXX-XXXX-XXXX-XXXX-XXXX'"
   [report]="'https://cdn.flexmonster.com/reports/report.json'">
 </fm-pivot>
 ```
 
-**Step 7.** Run your application from the console:
+Run your application from the console:
 
 ```bash
 ng serve
@@ -122,9 +126,17 @@ To see the result open your browser on `http://localhost:4200/`.
 
 ### <a name="fm-pivot-directive"></a>fm-pivot directive and its attributes ###
 
-`fm-pivot` directive embeds the component into the HTML page. Every attribute for `fm-pivot` directive is set either as a string value or as an Angular variable. All attributes are equivalent to those which are passed to the `new Flexmonster()` API call. Check out [the full list of available attributes](https://www.flexmonster.com/api/new-flexmonster/).
+`fm-pivot` directive embeds the component into the HTML page. Every attribute for `fm-pivot` directive is set either as a string value or as an Angular variable. Here is the list of available attributes:
 
-Here is an example demonstrating how different attributes are specified:
+* `componentFolder` – URL of the component’s folder which contains all necessary files. Also, it is used as a base URL for report files, localization files, styles and images. The default value for `componentFolder` is `flexmonster/`.
+* `width` – width of the component on the page (pixels or percent). The default value for width is 100%.
+* `height` – height of the component on the page (pixels or percent). The default value for height is `500`.
+* `report` – property to set a report. It can be inline [Report Object](https://www.flexmonster.com/api/report-object/) or URL to report JSON.
+* `toolbar` – parameter to embed the toolbar or not. Default value is `false` – without the toolbar.
+* `customizeCell` – function that allows customizing of separate cells. Have a look at [customizeCell definition and examples](https://www.flexmonster.com/api/customizecell/).
+* `licenseKey` – the license key.
+
+Here is how all these attributes should be specified:
 
 ```bash
 <fm-pivot [componentFolder]="'https://cdn.flexmonster.com/'"
@@ -133,7 +145,7 @@ Here is an example demonstrating how different attributes are specified:
           [height]="500"
           [licenseKey]="'XXXX-XXXX-XXXX-XXXX-XXXX'"
           [report]="'https://cdn.flexmonster.com/reports/report.json'"
-          (reportcomplete)="onReportComplete()">
+          (reportcomplete)="onReportComplete($event)">
     Flexmonster will appear here
 </fm-pivot>
 ```
@@ -156,7 +168,7 @@ onReportComplete(): void {
 Also, you need to specify that `onReportComplete` handles `reportcomplete` event in `fm-pivot` directive:
 
 ```bash
-(reportcomplete)="onReportComplete()
+(reportcomplete)="onReportComplete($event)
 ```
 
 Here is the [list of all available API methods and events](https://www.flexmonster.com/api/). 
